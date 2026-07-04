@@ -1,0 +1,5 @@
+PROGRAM_NAME='MeanderGen'
+VERSION='0.2'
+SPRINT='1.1'
+CODENAME='First Line'
+AUTHOR='Mandy Lord with ChatGPT'
