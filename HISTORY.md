@@ -20,3 +20,15 @@ The file `examples/first_path.svg` has been permanently preserved as the first d
 ---
 
 The journey continues...
+
+4th July 2026
+
+Today MeanderGen drew its first line.
+
+It wasn't a quilting pattern.
+
+It wasn't even a curve.
+
+It was simply proof that the Core Engine, the Path class and the SVG Writer could all work together.
+
+From this point onwards, every future path would begin here.
