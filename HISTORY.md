@@ -18,7 +18,7 @@ The following core components had been completed:
 The file `examples/first_path.svg` has been permanently preserved as the first drawing ever created by MeanderGen.
 
 ---
-Every great journey begins with a single path.
+
 The journey continues...
 
 4th July 2026
@@ -32,4 +32,4 @@ It wasn't even a curve.
 It was simply proof that the Core Engine, the Path class and the SVG Writer could all work together.
 
 From this point onwards, every future path would begin here.
-
+Every great journey begins with a single path.
