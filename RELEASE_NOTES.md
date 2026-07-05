@@ -19,3 +19,7 @@ Wander now has turn memory.
 Added gallery.
 Added first_wander example.
 Added first_wander SVG.
+Sprint 2.1 - The Long Walk
+Longer 1000-step example
+Smoother Wander
+Gallery milestone 0003
