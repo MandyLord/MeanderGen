@@ -12,3 +12,4 @@ examples/create_first_path.py
 examples/first_path.svg
 Milestone:
 MeanderGen has created its first SVG.
+Sprint 2.0A - The First Wander
