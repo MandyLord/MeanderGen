@@ -29,3 +29,8 @@ This sprint introduces Rectangle geometry and edge-distance
 calculations. No steering behaviour has been added yet.
 Sprint 2.2 Part 2B
 Added BoundaryGuide and integrated optional steering into PathFinder.
+Sprint 2.3A
+Improved Wander movement.
+Introduces a slowly drifting target turn.
+Produces longer, smoother arcs.
+Deterministic with a fixed random seed.
