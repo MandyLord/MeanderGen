@@ -41,3 +41,12 @@ Today MeanderGen completed its first independent movement.
 The first Wander model generated a smooth curved path using heading memory.
 
 It was only a short journey, but it proved that MeanderGen could begin choosing its own direction.
+## 5th July 2026
+
+Today MeanderGen completed its first successful local run on Mandy's computer.
+
+After installing Python, GitHub Desktop and Visual Studio Code, MeanderGen generated and displayed its first independently created long walk from the local development environment.
+
+Although only a simple curved path, it marked the beginning of MeanderGen running as a true software application rather than existing only as a GitHub repository.
+
+**Development Session — Mandy & PathFinder completed the first Local Tea Test.**
