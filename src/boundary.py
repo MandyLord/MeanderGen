@@ -1,10 +1,6 @@
 """
-Boundary mathematics for MeanderGen.
-
-This module knows about the drawing rectangle but knows nothing
-about Wander or SVG generation.
+Boundary mathematics and steering behaviour.
 """
-
 from dataclasses import dataclass
 from .geometry import Point
 
@@ -15,22 +11,30 @@ class Rectangle:
     right: float
     bottom: float
 
-    def width(self) -> float:
-        return self.right - self.left
-
-    def height(self) -> float:
-        return self.bottom - self.top
-
-    def contains(self, point: Point) -> bool:
-        return (
-            self.left <= point.x <= self.right and
-            self.top <= point.y <= self.bottom
-        )
-
-    def distances(self, point: Point) -> dict[str, float]:
+    def distances(self, point: Point)->dict[str,float]:
         return {
-            "left": point.x - self.left,
-            "right": self.right - point.x,
-            "top": point.y - self.top,
-            "bottom": self.bottom - point.y,
+            "left": point.x-self.left,
+            "right": self.right-point.x,
+            "top": point.y-self.top,
+            "bottom": self.bottom-point.y,
         }
+
+class BoundaryGuide:
+    """
+    Suggest a gentle steering correction as a path approaches
+    the edge of the drawing area.
+    """
+    def __init__(self, rectangle: Rectangle, margin: float=25.0, max_correction: float=6.0):
+        self.rectangle=rectangle
+        self.margin=margin
+        self.max=max_correction
+
+    def steering_adjustment(self, point: Point)->float:
+        d=self.rectangle.distances(point)
+        adjust=0.0
+        if d["left"]<self.margin:
+            adjust += self.max*(1-d["left"]/self.margin)
+        if d["right"]<self.margin:
+            adjust -= self.max*(1-d["right"]/self.margin)
+        return adjust
+
