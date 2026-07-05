@@ -27,3 +27,5 @@ Sprint 2.2 Part 2A
 Added the first Boundary module.
 This sprint introduces Rectangle geometry and edge-distance
 calculations. No steering behaviour has been added yet.
+Sprint 2.2 Part 2B
+Added BoundaryGuide and integrated optional steering into PathFinder.
