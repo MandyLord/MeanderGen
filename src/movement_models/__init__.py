@@ -1,1 +1,2 @@
+from .wander import Wander
 
