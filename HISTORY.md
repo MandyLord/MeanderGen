@@ -33,3 +33,10 @@ It was simply proof that the Core Engine, the Path class and the SVG Writer coul
 
 From this point onwards, every future path would begin here.
 Every great journey begins with a single path.
+5th July 2026
+
+Today MeanderGen completed its first independent movement.
+
+The first Wander model generated a smooth curved path using heading memory.
+
+It was only a short journey, but it proved that MeanderGen could begin choosing its own direction.
