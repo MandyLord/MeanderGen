@@ -13,3 +13,9 @@ examples/first_path.svg
 Milestone:
 MeanderGen has created its first SVG.
 Sprint 2.0A - The First Wander
+Sprint 2.0B – The First Wander
+New features:
+Wander now has turn memory.
+Added gallery.
+Added first_wander example.
+Added first_wander SVG.
