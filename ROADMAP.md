@@ -1,16 +1,35 @@
 # MeanderGen Roadmap
 
-## Completed
-- Foundations
-- The First Drawing
-- The First Wander
-- The Long Walk
+## Version 0.3 – Organic Motion
 
-## In Progress
-- Engine Integration
+- [ ] FlowSteering
+- [ ] InertiaSteering
+- [ ] Behaviour tuning
+- [ ] Configuration experiments
+- [ ] Unit tests
 
-## Planned
-- Boundary Awareness
-- Self Avoidance
-- First True Meander
-- Version 1.0
+## Future Ideas
+
+- [ ] Noise-based steering
+- [ ] Goal attraction
+- [ ] Spiral steering
+- [ ] Embroidery optimisation
+- [ ] SVG simplification
+- [ ] Satin stitch planning
+
+## Design Principles
+
+- Randomness has memory.
+- Steering corrections are immediate.
+- Behaviours should be independent and composable.
+- Geometry should remain independent of steering.
+
+## Ultimate Goal
+
+Generate a single continuous embroidery path that:
+
+- Never self-intersects (except where a deliberate motif requires it).
+- Maintains even spacing.
+- Smoothly fills the available area.
+- Can later incorporate decorative motifs.
+- Produces designs suitable for machine embroidery.
