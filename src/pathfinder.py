@@ -13,7 +13,11 @@ class PathFinder:
         self.rng=random.Random(seed)
         self.steering_behaviours = [
             EdgeSteering(),
-            SelfAvoidance(),
+            SelfAvoidance(
+                avoid_radius=120,
+                max_turn=6,
+                strength=0.08,
+        ),
         ]
 
         if boundary_guide is not None:
