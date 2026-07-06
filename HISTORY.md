@@ -84,3 +84,11 @@ Sprint 2.6C
 print 2.7M
 
 Implemented the first working version of SelfAvoidance. The path now detects nearby previous points and applies a steering correction based on the direction to the nearest point and the distance from it. Initial behaviour is promising but requires tuning to reduce oscillations and prevent tight spirals.
+
+Sprint 2.8
+
+Refactored SelfAvoidance to use configurable parameters (avoid_radius, max_turn, strength) instead of hard-coded values. No behavioural changes expected. This provides a flexible foundation for tuning different meander styles.
+
+Milestone: Segment-Based Geometry
+
+Introduced a LineSegment geometry class with reusable methods for vectors, projections and closest-point calculations. Refactored SelfAvoidance to steer away from the nearest path segment instead of the nearest stored point, laying the foundation for more advanced path-planning behaviours.
