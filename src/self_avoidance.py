@@ -1,4 +1,4 @@
-from math import hypot, atan2, degrees
+from math import atan2, degrees
 
 from .steering import SteeringBehaviour
 
@@ -7,6 +7,17 @@ class SelfAvoidance(SteeringBehaviour):
     Steering behaviour that will gently avoid previous parts
     of the path.
     """
+    def __init__(
+        self,
+        avoid_radius=75.0,
+        max_turn=8.0,
+        strength=0.1,
+        recent_segments=10,
+    ):
+        self.avoid_radius = avoid_radius
+        self.max_turn = max_turn
+        self.strength = strength
+        self.recent_segments = recent_segments
 
     def steering_adjustment(self, state):
 
@@ -16,32 +27,27 @@ class SelfAvoidance(SteeringBehaviour):
         step = state.step_number
 
         points = path.points()
+      
         # Ignore the first few steps and the most recent points
         if len(points) < 50:
             return 0.0
-
-        nearest_distance = float("inf")
-        nearest_point = None
-
-        for old_point in points[:-20]:
-            distance = hypot(
-                point.x - old_point.x,
-                point.y - old_point.y
-            )
-
-            if distance < nearest_distance:
-                nearest_distance = distance
-                nearest_point = old_point
-
-
-
-        if nearest_point is None:
+        nearest_segment = path.nearest_segment(
+            point,
+            ignore_last=self.recent_segments,
+        )
+        
+        if nearest_segment is None:
             return 0.0
+
+        closest_point = nearest_segment.closest_point(point)
+
+        nearest_distance = point.distance_to(closest_point)
+
 
         escape_heading = degrees(
             atan2(
-                point.y - nearest_point.y,
-                point.x - nearest_point.x
+                point.y - closest_point.y,
+                point.x - closest_point.x
             )
         )
         delta = escape_heading - heading
@@ -50,16 +56,18 @@ class SelfAvoidance(SteeringBehaviour):
 
         while delta < -180:
             delta += 360
-        max_turn = 8.0
+        max_turn = self.max_turn
 
         if delta > max_turn:
             delta = max_turn
         elif delta < -max_turn:
             delta = -max_turn
 
-        if nearest_distance < 75:
-            strength = (75 - nearest_distance) / 75.0
-            return delta * strength * 0.1
+        if nearest_distance < self.avoid_radius:
+            strength = (
+                self.avoid_radius - nearest_distance
+            ) / self.avoid_radius
+            return delta * strength * self.strength 
 
         return 0.0
 
