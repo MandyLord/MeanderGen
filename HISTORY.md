@@ -50,3 +50,37 @@ After installing Python, GitHub Desktop and Visual Studio Code, MeanderGen gener
 Although only a simple curved path, it marked the beginning of MeanderGen running as a true software application rather than existing only as a GitHub repository.
 
 **Development Session — Mandy & PathFinder completed the first Local Tea Test.**
+Sprint 2.4C
+
+Sprint 2.4C
+
+• Created the new EdgeSteering helper class.
+• Moved edge avoidance logic out of PathFinder.
+• PathFinder now delegates edge steering to EdgeSteering.
+• Successfully verified the refactor with Tea Test #7.
+
+Sprint 2.5
+
+• Added predictive (look-ahead) edge steering.
+• EdgeSteering now evaluates a future position instead of the current position.
+• Paths begin turning before reaching the canvas edge.
+• Produces smoother, more natural wandering paths.
+
+Sprint 2.6B
+
+• Introduced a generic SteeringBehaviour base class.
+• EdgeSteering now inherits from SteeringBehaviour.
+• PathFinder now supports a list of steering behaviours.
+• Steering adjustments are applied by iterating over all behaviours.
+• Refactored architecture without changing path behaviour.
+
+Sprint 2.6C
+
+• BoundaryGuide now inherits from SteeringBehaviour.
+• PathFinder no longer contains any special-case steering logic.
+• All steering is now handled through a generic behaviour list.
+• Completed the steering behaviour framework.
+
+print 2.7M
+
+Implemented the first working version of SelfAvoidance. The path now detects nearby previous points and applies a steering correction based on the direction to the nearest point and the distance from it. Initial behaviour is promising but requires tuning to reduce oscillations and prevent tight spirals.
