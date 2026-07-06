@@ -3,6 +3,7 @@ Boundary mathematics and steering behaviour.
 """
 from dataclasses import dataclass
 from .geometry import Point
+from .steering import SteeringBehaviour
 
 @dataclass(frozen=True)
 class Rectangle:
@@ -19,7 +20,7 @@ class Rectangle:
             "bottom": self.bottom-point.y,
         }
 
-class BoundaryGuide:
+class BoundaryGuide(SteeringBehaviour):
     """
     Suggest a gentle steering correction as a path approaches
     the edge of the drawing area.
@@ -29,7 +30,8 @@ class BoundaryGuide:
         self.margin=margin
         self.max=max_correction
 
-    def steering_adjustment(self, point: Point)->float:
+    def steering_adjustment(self, state) -> float:
+        point = state.position
         d=self.rectangle.distances(point)
         adjust=0.0
         if d["left"]<self.margin:
