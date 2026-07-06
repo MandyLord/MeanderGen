@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 from typing import List
 
 from .geometry import Point
+from .line_segment import LineSegment
 
 
 @dataclass
@@ -26,6 +27,51 @@ class Path:
 
     def points(self) -> tuple[Point, ...]:
         return tuple(self._points)
+    
+    def segments(self) -> tuple[LineSegment, ...]:
+        """
+        Return the path as a sequence of line segments.
+        """
+        if len(self._points) < 2:
+            return ()
+
+        return tuple(
+            LineSegment(
+                self._points[i - 1],
+                self._points[i],
+            )
+            for i in range(1, len(self._points))
+        )
+    
+    def nearest_segment(
+        self,
+        point: Point,
+        ignore_last: int = 0,
+    ) -> LineSegment | None:
+        
+        """
+        Return the line segment nearest to the supplied point.
+        """
+        segments = self.segments()
+
+        if ignore_last > 0:
+            segments = segments[:-ignore_last]
+
+        if not segments:
+            return None
+
+        nearest = None
+        nearest_distance = float("inf")
+
+        for segment in segments:
+            closest = segment.closest_point(point)
+            distance = point.distance_to(closest)
+
+            if distance < nearest_distance:
+                nearest_distance = distance
+                nearest = segment
+
+        return nearest
 
     def clear(self) -> None:
         self._points.clear()
