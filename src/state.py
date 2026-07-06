@@ -9,3 +9,4 @@ class State:
     heading: float
     step_number: int
     path: Path
+    previous_turn: float
