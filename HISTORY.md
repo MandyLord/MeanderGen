@@ -1,4 +1,27 @@
 </> Markdown
+# Version 0.3 – Organic Motion
+
+## Added
+
+- Introduced FlowSteering to encourage smooth, flowing curves.
+- Added inertia smoothing to reduce abrupt changes in direction.
+- Added configurable look-ahead distance to SelfAvoidance.
+- Improved SelfAvoidance with configurable recent segment exclusion.
+- Created the project ROADMAP.md.
+- Established design principles and the long-term project vision.
+
+## Changed
+
+- Refactored steering architecture to support more modular behaviours.
+- Improved path smoothness through turn filtering.
+- Continued development towards intelligent path planning.
+
+## Notes
+
+Version 0.3 concludes the reactive steering phase of MeanderGen.
+
+The next major milestone (v0.4) introduces a new Direction Planner that will evaluate multiple candidate directions instead of reacting after a turn has already been chosen.
+
 ---
 ## Version 0.2
 
