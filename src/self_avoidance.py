@@ -1,4 +1,5 @@
-from math import atan2, degrees
+from importlib.resources import path
+from math import atan2, degrees, radians, cos, sin
 
 from .steering import SteeringBehaviour
 
@@ -13,17 +14,23 @@ class SelfAvoidance(SteeringBehaviour):
         max_turn=8.0,
         strength=0.1,
         recent_segments=10,
+        look_ahead=20.0
     ):
         self.avoid_radius = avoid_radius
         self.max_turn = max_turn
         self.strength = strength
         self.recent_segments = recent_segments
+        self.look_ahead = look_ahead
 
     def steering_adjustment(self, state):
 
         path = state.path
         point = state.position
         heading = state.heading
+        look_x = point.x + cos(radians(heading)) * self.look_ahead
+        look_y = point.y + sin(radians(heading)) * self.look_ahead
+
+        look_point = point.__class__(look_x, look_y)
         step = state.step_number
 
         points = path.points()
@@ -32,16 +39,16 @@ class SelfAvoidance(SteeringBehaviour):
         if len(points) < 50:
             return 0.0
         nearest_segment = path.nearest_segment(
-            point,
+            look_point,
             ignore_last=self.recent_segments,
-        )
+)
         
         if nearest_segment is None:
             return 0.0
 
-        closest_point = nearest_segment.closest_point(point)
+        closest_point = nearest_segment.closest_point(look_point)
 
-        nearest_distance = point.distance_to(closest_point)
+        nearest_distance = look_point.distance_to(closest_point)
 
 
         escape_heading = degrees(
