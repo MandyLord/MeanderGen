@@ -34,3 +34,7 @@ Improved Wander movement.
 Introduces a slowly drifting target turn.
 Produces longer, smoother arcs.
 Deterministic with a fixed random seed.
+
+MeanderGen v0.3 – Organic Motion
+
+Introduced a modular steering framework with configurable behaviours, inertia smoothing and flow steering. These features significantly improved the natural movement of generated paths and established the architectural foundations for future planning algorithms.
