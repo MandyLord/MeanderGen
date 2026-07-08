@@ -1,7 +1,7 @@
 from math import hypot
 
 
-class DistanceScore:
+class SpaceScore:
     """
     Temporary scoring function.
 

@@ -2,7 +2,7 @@ from math import cos, sin, radians
 
 from .candidate import Candidate
 from .geometry import Point
-from .scoring.distance_score import DistanceScore
+from .scoring.space_score import SpaceScore
 
 
 class DirectionPlanner:
@@ -19,7 +19,7 @@ class DirectionPlanner:
         self.max_turn = max_turn
         self.turn_step = turn_step
         self.scorers = [
-            DistanceScore(),
+            SpaceScore(),
         ]
 
     def candidate_headings(
