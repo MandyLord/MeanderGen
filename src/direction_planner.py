@@ -110,16 +110,15 @@ class DirectionPlanner:
                     state,
                 )
 
-    def choose_turn(self, state):
+    def choose_turn(
+    self,
+    candidates,
+    state,
+    ):
         """
-        Choose the highest-scoring candidate heading.
+        Score the supplied candidates and return
+        the heading of the best one.
         """
-
-        candidates = self.candidates(
-            state.current,
-            state.heading,
-            state.step_length,
-        )
 
         self.score_candidates(
             candidates,

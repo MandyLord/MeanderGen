@@ -24,9 +24,9 @@ planner.score_candidates(
     state,
 )
 
-best = max(
+chosen_heading = planner.choose_turn(
     candidates,
-    key=lambda candidate: candidate.score,
+    state,
 )
 
 print()
@@ -42,7 +42,7 @@ for candidate in candidates:
 
     marker = ""
 
-    if candidate is best:
+    if candidate.heading == chosen_heading:
         marker = "  <-- Selected"
 
     print(
@@ -52,4 +52,4 @@ for candidate in candidates:
     )
 
 print()
-print(f"Chosen heading: {best.heading}°")
+print(f"Chosen heading: {chosen_heading}°")
