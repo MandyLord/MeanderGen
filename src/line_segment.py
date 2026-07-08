@@ -75,3 +75,14 @@ class LineSegment:
             self.start.x + t * vx,
             self.start.y + t * vy,
         )
+    def distance_to(self, point: Point) -> float:
+        """
+        Return the shortest distance from the supplied
+        point to this line segment.
+        """
+        closest = self.closest_point(point)
+
+        return hypot(
+        point.x - closest.x,
+        point.y - closest.y,
+    )
