@@ -1,5 +1,6 @@
 from src.direction_planner import DirectionPlanner
 from src.geometry import Point
+from src.path import Path
 
 class TestState:
 
@@ -8,6 +9,12 @@ class TestState:
         self.current = Point(100, 100)
         self.heading = 90
         self.step_length = 10
+
+        self.path = Path()
+
+        self.path.add_point(Point(80, 80))
+        self.path.add_point(Point(90, 90))
+        self.path.add_point(self.current)
 
 planner = DirectionPlanner()
 

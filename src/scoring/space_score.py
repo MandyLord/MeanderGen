@@ -1,12 +1,8 @@
-from math import hypot
-
 
 class SpaceScore:
     """
-    Temporary scoring function.
-
-    Reward candidates that are further
-    from the origin.
+    Score candidates according to how much
+    open space surrounds them.
     """
 
     def score(
@@ -14,7 +10,11 @@ class SpaceScore:
         candidate,
         state,
     ):
-        return hypot(
-            candidate.position.x,
-            candidate.position.y,
+        """
+        Reward candidates that move into open space.
+        """
+
+        return state.path.nearest_distance(
+            candidate.position,
+            ignore_last=1,
         )

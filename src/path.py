@@ -64,14 +64,32 @@ class Path:
         nearest_distance = float("inf")
 
         for segment in segments:
-            closest = segment.closest_point(point)
-            distance = point.distance_to(closest)
+            distance = segment.distance_to(point)
 
             if distance < nearest_distance:
                 nearest_distance = distance
                 nearest = segment
 
         return nearest
+    
+    def nearest_distance(
+        self,
+        point: Point,
+        ignore_last: int = 0,
+    ) -> float:
+        """
+        Return the distance from the supplied point
+        to the nearest line segment.
+        """
+        segment = self.nearest_segment(
+            point,
+            ignore_last=ignore_last,
+        )
+
+        if segment is None:
+            return float("inf")
+
+        return segment.distance_to(point)
 
     def clear(self) -> None:
         self._points.clear()
