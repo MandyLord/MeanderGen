@@ -15,12 +15,17 @@ class DirectionPlanner:
         self,
         max_turn=45,
         turn_step=5,
+        scorers=None,
     ):
         self.max_turn = max_turn
         self.turn_step = turn_step
-        self.scorers = [
-            SpaceScore(),
-        ]
+
+        if scorers is None:
+            scorers = [
+                SpaceScore(),
+            ]
+
+        self.scorers = scorers
 
     def candidate_headings(
         self,

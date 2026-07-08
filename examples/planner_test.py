@@ -1,12 +1,15 @@
 from src.direction_planner import DirectionPlanner
 from src.geometry import Point
 from src.path import Path
+from src.boundary import Rectangle
+from src.scoring.boundary_score import BoundaryScore
+from src.scoring.space_score import SpaceScore
 
 class TestState:
 
     def __init__(self):
 
-        self.current = Point(100, 100)
+        self.current = Point(190, 100)
         self.heading = 90
         self.step_length = 10
 
@@ -16,7 +19,19 @@ class TestState:
         self.path.add_point(Point(90, 90))
         self.path.add_point(self.current)
 
-planner = DirectionPlanner()
+boundary = Rectangle(
+    left=0,
+    top=0,
+    right=200,
+    bottom=200,
+)
+
+planner = DirectionPlanner(
+    scorers=[
+        SpaceScore(),
+        BoundaryScore(boundary),
+    ]
+)
 
 state = TestState()
 

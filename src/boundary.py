@@ -20,6 +20,65 @@ class Rectangle:
             "bottom": self.bottom-point.y,
         }
 
+    def contains(
+        self,
+        point: Point,
+    ) -> bool:
+        """
+        Return True if the supplied point lies
+        inside or on the rectangle.
+        """
+
+        return (
+            self.left <= point.x <= self.right
+            and
+            self.top <= point.y <= self.bottom
+        )
+    def closest_point(
+        self,
+        point: Point,
+    ) -> Point:
+        """
+        Return the closest point on the rectangle
+        to the supplied point.
+        """
+
+        x = min(
+            max(point.x, self.left),
+            self.right,
+        )
+
+        y = min(
+            max(point.y, self.top),
+            self.bottom,
+        )
+
+        return Point(x, y)
+    def distance_to(
+        self,
+        point: Point,
+    ) -> float:
+        """
+        Return the signed distance from the supplied
+        point to the rectangle.
+
+        Positive values are inside the rectangle.
+        Zero is on the boundary.
+        Negative values are outside.
+        """
+
+        closest = self.closest_point(point)
+
+        distance = point.distance_to(closest)
+
+        if self.contains(point):
+
+            distances = self.distances(point)
+
+            return min(distances.values())
+
+        return -distance  
+     
 class BoundaryGuide(SteeringBehaviour):
     """
     Suggest a gentle steering correction as a path approaches

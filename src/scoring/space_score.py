@@ -5,6 +5,12 @@ class SpaceScore:
     open space surrounds them.
     """
 
+    def __init__(
+        self,
+        weight: float = 1.0,
+    ):
+        self.weight = weight
+
     def score(
         self,
         candidate,
@@ -14,7 +20,9 @@ class SpaceScore:
         Reward candidates that move into open space.
         """
 
-        return state.path.nearest_distance(
+        distance = state.path.nearest_distance(
             candidate.position,
             ignore_last=1,
         )
+
+        return distance * self.weight
