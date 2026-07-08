@@ -111,5 +111,24 @@ class DirectionPlanner:
                 )
 
     def choose_turn(self, state):
+        """
+        Choose the highest-scoring candidate heading.
+        """
 
-        raise NotImplementedError
+        candidates = self.candidates(
+            state.current,
+            state.heading,
+            state.step_length,
+        )
+
+        self.score_candidates(
+            candidates,
+            state,
+        )
+
+        best = max(
+            candidates,
+            key=lambda candidate: candidate.score,
+        )
+
+        return best.heading

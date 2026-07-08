@@ -1,4 +1,13 @@
 </> Markdown
+## v0.4a
+
+Implemented the planner's first decision-making capability.
+
+- Added `DirectionPlanner.choose_turn()`.
+- Planner now selects the highest-scoring candidate.
+- Improved `planner_test.py` with a clear tabular display.
+- Verified candidate selection through testing.
+
 # Version 0.3 – Organic Motion
 
 ## Added

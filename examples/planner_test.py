@@ -1,20 +1,55 @@
 from src.direction_planner import DirectionPlanner
 from src.geometry import Point
 
+class TestState:
+
+    def __init__(self):
+
+        self.current = Point(100, 100)
+        self.heading = 90
+        self.step_length = 10
+
 planner = DirectionPlanner()
 
-point = Point(100, 100)
+state = TestState()
 
 candidates = planner.candidates(
-    point,
-    90,
-    10,
+    state.current,
+    state.heading,
+    state.step_length,
 )
 
 planner.score_candidates(
     candidates,
-    None,
+    state,
 )
 
+best = max(
+    candidates,
+    key=lambda candidate: candidate.score,
+)
+
+print()
+print("Planner Test")
+print("=" * 40)
+print(f"Current heading: {state.heading}°")
+print()
+
+print(f"{'Heading':>8} {'Score':>10}")
+print("-" * 22)
+
 for candidate in candidates:
-    print(candidate)
+
+    marker = ""
+
+    if candidate is best:
+        marker = "  <-- Selected"
+
+    print(
+        f"{candidate.heading:>8}"
+        f"{candidate.score:>10.2f}"
+        f"{marker}"
+    )
+
+print()
+print(f"Chosen heading: {best.heading}°")
