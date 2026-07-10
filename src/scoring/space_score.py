@@ -1,4 +1,7 @@
 
+from dbm import error
+
+
 class SpaceScore:
     """
     Score candidates according to how much
@@ -8,8 +11,11 @@ class SpaceScore:
     def __init__(
         self,
         weight: float = 1.0,
+        ideal_spacing: float = 25.0,
     ):
+        
         self.weight = weight
+        self.ideal_spacing = ideal_spacing
 
     def score(
         self,
@@ -25,4 +31,6 @@ class SpaceScore:
             ignore_last=1,
         )
 
-        return distance * self.weight
+        error = abs(distance - self.ideal_spacing)
+
+        return -error * self.weight

@@ -5,7 +5,7 @@ class FlowScore:
 
     def __init__(
         self,
-        weight: float = 1.0,
+        weight: float = 0.1,
     ):
         self.weight = weight
 

@@ -40,7 +40,8 @@ class PathFinder:
                 h,
                 i,
                 path,
-                previous_turn
+                previous_turn,
+                self.step
             )
             if hasattr(self.model, "choose_turn"):
 
@@ -54,27 +55,7 @@ class PathFinder:
                     candidates,
                     state,
                 )
-                if i == 129:
-                    print()
-                    print("Step 0 Scores")
-                    print("-" * 40)
-
-                    for candidate in candidates:
-                        print(
-                            candidate.heading,
-                            candidate.breakdown,
-                            candidate.score,
-                )
-
-                    print()
-
-                if 128 <= i <=138:
-                    print(
-                        f"Step {i:2}: "
-                        f"heading={h:6.1f}  "
-                        f"chosen={chosen_heading:6.1f}"
-                    )
-
+                
                 turn = chosen_heading - h
 
             else:

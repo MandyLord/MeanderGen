@@ -140,3 +140,13 @@ Introduced a LineSegment geometry class with reusable methods for vectors, proje
 
 ### Notes
 The planner now behaves predictably. The next stage is to introduce controlled wandering behaviour so the path develops into a natural stipple rather than a straight line.
+
+# Project History
+
+- First Tea Test
+- First Planner SVG
+- The First Ugly Circle™
+- The Ugly Lollipop™
+- First Successful Boundary Fix
+- The Stripe Revelation™
+- Birth of Planner Phases

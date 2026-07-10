@@ -4,149 +4,167 @@
 
 ---
 
-# Vision
+MeanderGen – Project State
 
-MeanderGen is a Python application that generates beautiful continuous-line
-embroidery and quilting fill patterns.
+Last Updated: v0.5 Development
+Authors: Mandy Lord & Winston
+
+Vision
+
+MeanderGen is a Python application that generates beautiful continuous-line embroidery and quilting fill patterns.
 
 The long-term goal is to produce designs that:
 
-- consist of one continuous path
-- avoid self-intersections (except where deliberately required by motifs)
-- maintain even spacing
-- naturally fill a region
-- are suitable for machine embroidery
-- later support decorative motifs (butterflies, birds, cats, etc.)
+consist of one continuous path
+avoid self-intersections (except where deliberately required by motifs)
+maintain even spacing
+naturally fill a region
+are suitable for machine embroidery
+later support decorative motifs (butterflies, birds, cats, etc.)
 
 The emphasis is on elegant algorithms rather than randomness.
 
----
-
-# Development Philosophy
+Development Philosophy
 
 The project is built using very small, testable steps.
 
 Every new feature should:
 
-- compile independently
-- be tested independently
-- avoid large rewrites
-- keep responsibilities separated
+compile independently
+be tested independently
+avoid large rewrites
+keep responsibilities separated
 
 The architecture is more important than rushing towards the final algorithm.
 
----
+A new guiding principle emerged during v0.5:
 
-# Versions
+Never invent a new scorer until the SVG tells us we need one.
 
-## v0.1
+Behaviour should always be driven by observation rather than guesswork.
 
-Initial random path generation.
-
----
-
-## v0.2 – Steering Framework
+Versions
+v0.1 – Random Walk
 
 Completed.
 
 Features:
 
-- steering behaviour architecture
-- boundary steering
-- self avoidance
-- modular steering system
+initial continuous path generation
+v0.2 – Steering Framework
+
+Completed.
+
+Features:
+
+steering behaviour architecture
+boundary steering
+self avoidance
+modular steering system
 
 GitHub Release published.
 
----
-
-## v0.3 – Organic Motion
+v0.3 – Organic Motion
 
 Completed.
 
 Features:
 
-- FlowSteering
-- inertia smoothing
-- configurable self avoidance
-- look-ahead steering
-- improved movement quality
+FlowSteering
+inertia smoothing
+configurable self avoidance
+look-ahead steering
+improved movement quality
 
 Conclusion:
 
-Reactive steering creates attractive wandering paths,
-but cannot reliably produce the desired quilting fills.
+Reactive steering creates attractive wandering paths but cannot reliably produce quilting fills.
 
 GitHub Release published.
 
----
+v0.4 – Intelligent Direction Planning
 
-## v0.4 – Intelligent Direction Planning
+Completed.
 
-Current development version.
+Major features:
 
-This replaces reactive steering with intelligent planning.
+Candidate generation
+Candidate scoring
+DirectionPlanner
+SpaceScore
+BoundaryScore
+FlowScore
+Planner integrated into PathFinder
+First planner-generated SVG successfully produced
+v0.5 – Planner Validation
 
-The planner now evaluates multiple possible futures before moving.
+Current development version
 
----
+Major achievements:
 
-# Current Architecture
+Planner successfully drives the movement engine.
+Multiple scoring classes operate together correctly.
+Extensive debugging tools added.
+Behaviour analysed through SVG output.
+First behavioural bugs identified and corrected.
 
+Major fixes:
+
+SpaceScore
+
+Corrected an infinite scoring bug caused when no path segments existed.
+
+Result:
+
+planner no longer always selected the first candidate.
+BoundaryScore
+
+Corrected boundary handling:
+
+Changed
+
+if distance <= 0:
+
+to
+
+if distance < 0:
+
+Result:
+
+eliminated the continuous boundary loop ("The Ugly Lollipop™")
+points exactly on the boundary are now considered valid
+Current Architecture
 Geometry
-↓
-
+    ↓
 Path
-
-↓
-
+    ↓
 Candidate Generation
-
-↓
-
+    ↓
 Candidate Scoring
-
-↓
-
+    ↓
 Direction Planner
+    ↓
+PathFinder
+    ↓
+SVG Writer
 
-↓
+The complete planning pipeline is now operational.
 
-Future Path Generator
-
----
-
-# Current Project Structure
-
+Current Project Structure
 MeanderGen/
 
-Docs/
-
+docs/
 examples/
-
 gallery/
-
 src/
-
 tests/
 
-.gitignore
-
 README.md
-
 ROADMAP.md
-
 HISTORY.md
-
----
-
-# Important Classes
-
-## Candidate
-
-Location:
-
-src/candidate.py
+PROJECT_STATE.md
+Important Classes
+Candidate
 
 Purpose:
 
@@ -154,248 +172,135 @@ Represents one possible future movement.
 
 Current fields:
 
-- heading
-- position
-- score
-
----
-
-## DirectionPlanner
-
-Location:
-
-src/direction_planner.py
+heading
+position
+score
+breakdown
+DirectionPlanner
 
 Current responsibilities:
 
-- generate candidate headings
-- predict future positions
-- generate Candidate objects
-- score candidates
+generate candidate headings
+predict future positions
+generate Candidate objects
+evaluate scorers
+record score breakdowns
+choose best heading
+PathFinder
 
-Still to implement:
+Current responsibilities:
 
-- choose_turn()
+execute planner decisions
+update heading
+generate continuous paths
+maintain movement state
+Current Scorers
 
----
+Implemented:
 
-## DistanceScore
+SpaceScore
+BoundaryScore
+FlowScore
 
-Location:
+Future scorers:
 
-src/scoring/distance_score.py
+DensityScore
+DeadEndScore
+MotifScore
+Current Testing
 
-Purpose:
+Current debugging tools include:
 
-First scoring class.
+planner score tables
+per-scorer breakdown
+heading selection logging
+SVG preview generation
+start/end markers
+development mode visualisation
 
-Currently returns a temporary score
-(distance from origin) purely to verify
-the scoring architecture.
+These proved invaluable during planner debugging.
 
-This will later become:
+Lessons Learned
 
-distance from nearest existing path.
+Major lessons from v0.5:
 
----
+Hard penalties should only be used for impossible moves.
+Preference scores should gently influence behaviour.
+Visual debugging is significantly more effective than numerical debugging alone.
+Behaviour should be understood before introducing additional algorithms.
+Building in small verified steps dramatically reduces debugging complexity.
+Current Status
 
-# Scoring Architecture
+The planner is now stable.
 
-The planner owns:
+Current behaviour:
 
-self.scorers
+chooses headings correctly
+updates movement correctly
+respects boundaries correctly
+produces deterministic paths
 
-Currently:
+The planner currently favours perfectly straight movement.
 
-DistanceScore()
+This is expected.
 
-Future scorers will include:
+The next stage is to teach it controlled, natural wandering.
 
-BoundaryScore()
+Next Sprint – Sprint 2.6
 
-SpacingScore()
+Objective:
 
-FlowScore()
+Teach the planner to wander gracefully.
 
-DensityScore()
+Goals:
 
-DeadEndScore()
+introduce gentle heading variation
+preserve smooth movement
+maintain boundary awareness
+preserve self-avoidance
+begin producing the first recognisable stipple behaviour
 
-MotifScore()
+No new scorers should be added unless the generated SVG demonstrates a genuine need.
 
-Each scorer contributes to a candidate's total score.
+Git Workflow
 
-This keeps the planner independent from individual algorithms.
-
----
-
-# Current Tests
-
-planner_test.py currently demonstrates:
-
-✔ candidate generation
-
-✔ future position prediction
-
-✔ candidate objects
-
-✔ scoring
-
-Current output shows Candidate objects
-with different scores.
-
----
-
-# Git Workflow
-
-Development commits:
+Development commits should remain:
 
 small
-
 frequent
-
 single-purpose
 
-Releases:
+GitHub Releases should continue to represent major architectural milestones only.
 
-v0.2
+Long-Term Goals
 
-v0.3
+Produce embroidery-quality continuous fills comparable to commercial quilting software.
 
-Only create a GitHub Release for major milestones.
-
----
-
-# .gitignore
-
-Created.
-
-Python cache files are now ignored.
-
-Repository is clean.
-
----
-
-# Coding Style
-
-Prefer:
-
-small classes
-
-small methods
-
-clear responsibilities
-
-simple commits
-
-incremental progress
-
-Never add large features without testing.
-
----
-
-# Ultimate Algorithm
-
-Current approach:
-
-Generate candidates
-
-↓
-
-Score candidates
-
-↓
-
-Choose highest score
-
-↓
-
-Move
-
-Future scoring criteria:
-
-distance from existing path
-
-boundary safety
-
-even spacing
-
-open space preference
-
-dead-end avoidance
-
-smoothness
-
-motif opportunities
-
-The planner should eventually create
-beautiful continuous fills rather than
-random walks.
-
----
-
-# Lessons Learned
-
-Reactive steering improves movement quality
-but does not solve space filling.
-
-Planning ahead is the correct direction.
-
-Candidate-based architecture is significantly
-cleaner than continually adding steering
-behaviours.
-
----
-
-# Next Sprint
-
-Implement:
-
-DirectionPlanner.choose_turn()
-
-Process:
-
-1. Generate candidates.
-
-2. Score candidates.
-
-3. Select the highest scoring candidate.
-
-Initially use Python's max() function.
-
-No movement engine changes yet.
-
-Only prove that the planner can
-choose the highest scoring candidate.
-
----
-
-# Long-Term Goals
-
-Create embroidery-quality fills comparable
-to commercial quilting software.
-
-Later support:
+Future extensions:
 
 butterflies
-
 birds
-
 cats
-
 dogs
-
 seasonal motifs
+user-supplied SVG motifs
 
-custom SVG motifs
+These should become plug-in components while leaving the planning engine unchanged.
 
-without changing the planning engine.
-
-The planner should remain generic while
-motifs become plug-in components.
-
----
-
-# Project Motto
+Project Motto
 
 Every beautiful path begins with one thoughtful step.
+
+😊 One tiny addition I'd love to make
+
+Right at the bottom, I'd add a little "Project History" section. Not technical—just the memorable moments.
+
+# Project History
+
+- First Tea Test
+- First Planner SVG
+- The First Ugly Circle™
+- The Ugly Lollipop™
+- First Successful Boundary Fix
+
+Beautiful quilting emerges from maintaining consistent spacing, not from seeking maximum empty space.

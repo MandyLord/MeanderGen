@@ -1,8 +1,10 @@
+import random
 from math import cos, sin, radians
 
 from .candidate import Candidate
 from .geometry import Point
 from .scoring.space_score import SpaceScore
+from src import candidate
 
 class DirectionPlanner:
     """
@@ -140,4 +142,26 @@ class DirectionPlanner:
             key=lambda candidate: candidate.score,
         )
 
-        return best.heading
+        tolerance = 0.2
+
+        good_candidates = [
+            candidate
+            for candidate in candidates
+            if candidate.score >= best.score - tolerance
+        ]
+
+        if state.step_number == 0:
+            candidates.sort(
+                key=lambda candidate: candidate.score,
+                reverse=True,
+            )
+
+            for candidate in candidates[:5]:
+                print(
+                    f"{candidate.heading:>5.1f}°  "
+                    f"{candidate.score:.6f}"
+                )
+
+            print(len(good_candidates))
+
+        return random.choice(good_candidates).heading
