@@ -4,6 +4,7 @@ from src.path import Path
 from src.boundary import Rectangle
 from src.scoring.boundary_score import BoundaryScore
 from src.scoring.space_score import SpaceScore
+from src.scoring.flow_score import FlowScore
 
 class TestState:
 
@@ -12,7 +13,7 @@ class TestState:
         self.current = Point(190, 100)
         self.heading = 90
         self.step_length = 10
-
+        self.previous_turn = 10
         self.path = Path()
 
         self.path.add_point(Point(80, 80))
@@ -28,8 +29,16 @@ boundary = Rectangle(
 
 planner = DirectionPlanner(
     scorers=[
-        SpaceScore(),
-        BoundaryScore(boundary),
+        SpaceScore(
+            weight=1.0
+        ),
+        BoundaryScore(
+            boundary,
+            weight=5.0
+        ),
+        FlowScore(
+            weight=1.0
+        ),
     ]
 )
 
@@ -50,6 +59,13 @@ chosen_heading = planner.choose_turn(
     candidates,
     state,
 )
+scorer_names = [
+    scorer.__class__.__name__.replace(
+        "Score",
+        "",
+    )
+    for scorer in planner.scorers
+]
 
 print()
 print("Planner Test")
@@ -57,8 +73,16 @@ print("=" * 40)
 print(f"Current heading: {state.heading}°")
 print()
 
-print(f"{'Heading':>8} {'Score':>10}")
-print("-" * 22)
+heading = f"{'Heading':>8}"
+
+for name in scorer_names:
+    heading += f"{name:>10}"
+
+heading += f"{'Total':>10}"
+
+print(heading)
+print("-" * len(heading))
+print("-" * 42)
 
 for candidate in candidates:
 
@@ -66,12 +90,24 @@ for candidate in candidates:
 
     if candidate.heading == chosen_heading:
         marker = "  <-- Selected"
+    
+    
 
-    print(
-        f"{candidate.heading:>8}"
-        f"{candidate.score:>10.2f}"
-        f"{marker}"
-    )
+    row = f"{candidate.heading:>8}"
 
-print()
+    for scorer in planner.scorers:
+
+        score = candidate.breakdown.get(
+            scorer.__class__.__name__,
+            0.0,
+        )
+
+        row += f"{score:>10.2f}"
+
+    row += f"{candidate.score:>10.2f}"
+
+    if candidate.heading == chosen_heading:
+        row += "  <-- Selected"
+
+    print(row)
 print(f"Chosen heading: {chosen_heading}°")

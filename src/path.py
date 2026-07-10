@@ -87,7 +87,7 @@ class Path:
         )
 
         if segment is None:
-            return float("inf")
+            return 0.0
 
         return segment.distance_to(point)
 

@@ -4,7 +4,6 @@ from .candidate import Candidate
 from .geometry import Point
 from .scoring.space_score import SpaceScore
 
-
 class DirectionPlanner:
     """
     Evaluate candidate directions and choose
@@ -96,10 +95,10 @@ class DirectionPlanner:
         return candidates
     
     def score_candidates(
-    self,
-    candidates,
-    state,
-):
+        self,
+        candidates,
+        state,
+    ):
         """
         Score every candidate.
         """
@@ -107,18 +106,24 @@ class DirectionPlanner:
         for candidate in candidates:
 
             candidate.score = 0.0
+            candidate.breakdown.clear()
 
             for scorer in self.scorers:
-
-                candidate.score += scorer.score(
+                score = scorer.score(
                     candidate,
                     state,
-                )
+            )
+
+                candidate.breakdown[
+                    scorer.__class__.__name__
+                ] = score
+                candidate.score += score
+
 
     def choose_turn(
-    self,
-    candidates,
-    state,
+        self,
+        candidates,
+        state,
     ):
         """
         Score the supplied candidates and return

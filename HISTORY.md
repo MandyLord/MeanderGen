@@ -1,3 +1,4 @@
+
 </> Markdown
 ## v0.4a
 
@@ -124,3 +125,18 @@ Refactored SelfAvoidance to use configurable parameters (avoid_radius, max_turn,
 Milestone: Segment-Based Geometry
 
 Introduced a LineSegment geometry class with reusable methods for vectors, projections and closest-point calculations. Refactored SelfAvoidance to steer away from the nearest path segment instead of the nearest stored point, laying the foundation for more advanced path-planning behaviours.
+
+## Sprint 2.5 – Planner Boundary Fix
+
+### Fixed
+- Fixed a boundary scoring bug where points exactly on the boundary were treated as outside.
+- Changed `BoundaryScore` from `distance <= 0` to `distance < 0`.
+- Removed the continuous boundary-turning behaviour ("The Ugly Lollipop").
+
+### Verified
+- DirectionPlanner successfully evaluates SpaceScore, BoundaryScore and FlowScore.
+- Planner correctly maintains a straight heading when no steering is required.
+- Boundary penalties now apply only when candidates move outside the drawing area.
+
+### Notes
+The planner now behaves predictably. The next stage is to introduce controlled wandering behaviour so the path develops into a natural stipple rather than a straight line.

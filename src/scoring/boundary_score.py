@@ -23,7 +23,7 @@ class BoundaryScore:
             candidate.position,
         )
 
-        if distance <= 0:
+        if distance < 0:
             return -1000.0 * self.weight
 
         if distance >= self.safe_distance:

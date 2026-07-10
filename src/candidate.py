@@ -1,9 +1,6 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from src.geometry import Point
-
-
-from dataclasses import dataclass
 
 
 @dataclass
@@ -11,7 +8,9 @@ class Candidate:
     heading: float
     position: Point
     score: float = 0.0
-
+    breakdown: dict[str, float] = field(
+        default_factory=dict
+    )
     def __repr__(self):
         return (
             f"Candidate("
