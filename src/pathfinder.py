@@ -7,6 +7,7 @@ from .state import State
 from .edge_steering import EdgeSteering
 from .self_avoidance import SelfAvoidance
 from .flow_steering import FlowSteering
+from .planner_phase import PlannerPhase
 
 class PathFinder:
     def __init__(self,movement_model,step_length=5.0,seed=None,boundary_guide=None):
@@ -26,23 +27,30 @@ class PathFinder:
         if boundary_guide is not None:
             self.steering_behaviours.append(boundary_guide)
 
-    def generate(self,start:Point,heading:float,steps:int)->Path:
-        path=Path()
-        current=start
-        h=heading
+    def generate(self, start: Point, heading: float, steps: int) -> Path:
+        path = Path()
+        current = start
+        h = heading
         path.add_point(current)
         previous_turn = 0.0
-        
+
         for i in range(steps):
-            #print(i)
+
+            if i < 50:
+                phase = PlannerPhase.SEED
+            else:
+                phase = PlannerPhase.GROWTH
+
             state = State(
                 current,
                 h,
                 i,
                 path,
                 previous_turn,
-                self.step
+                self.step,
+                phase,
             )
+
             if hasattr(self.model, "choose_turn"):
 
                 candidates = self.model.candidates(
@@ -55,7 +63,7 @@ class PathFinder:
                     candidates,
                     state,
                 )
-                
+
                 turn = chosen_heading - h
 
             else:
@@ -72,19 +80,13 @@ class PathFinder:
             previous_turn = turn
 
             h += turn
-            if 128 <= i <=138:
-                print(f"    new heading = {h}")
-                
-            current=Point(
-                current.x+self.step*cos(radians(h)),
-                current.y+self.step*sin(radians(h))
+
+            current = Point(
+                current.x + self.step * cos(radians(h)),
+                current.y + self.step * sin(radians(h)),
             )
+
             path.add_point(current)
-        print("Points in path:", path.point_count())
-        print("Final position:", current)
-        print()
-        print("Last 10 points:")
-        for p in path.points()[-10:]:
-            print(p)
+
         return path
 
