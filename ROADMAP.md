@@ -33,3 +33,4 @@ Generate a single continuous embroidery path that:
 - Smoothly fills the available area.
 - Can later incorporate decorative motifs.
 - Produces designs suitable for machine embroidery.
+- A movement should never invent information that already exists.
