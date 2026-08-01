@@ -1,38 +1,30 @@
+from pathlib import Path as FilePath
 from .geometry import Point
+from .movements import move_away_01
+from .movements import grow_bulb_01
 from .path import Path
 from .svg_writer import SVGWriter
-from .loop_blueprint import LoopBlueprint
 
-blueprint = LoopBlueprint()
-points = blueprint.build()
+
+points1, x, y, heading = move_away_01.build(
+    x=40,
+    y=60,
+    heading=0,
+)
+
+points2, x, y, heading = grow_bulb_01.build(
+    x,
+    y,
+    heading,
+)
+
+points = points1 + points2
 
 path = Path()
 
-SCALE = 5
-
-# Automatically centre the drawing
-
-xs = [x for x, y in points]
-ys = [y for x, y in points]
-
-min_x = min(xs)
-max_x = max(xs)
-min_y = min(ys)
-max_y = max(ys)
-
-drawing_width = (max_x - min_x) * SCALE
-drawing_height = (max_y - min_y) * SCALE
-
-OFFSET_X = (200 - drawing_width) / 2 - min_x * SCALE
-OFFSET_Y = (200 - drawing_height) / 2 - min_y * SCALE
-
 for x, y in points:
-
     path.add_point(
-        Point(
-            x * SCALE + OFFSET_X,
-            y * SCALE + OFFSET_Y,
-        )
+        Point(x, y)
     )
 
 SVGWriter.write(
@@ -43,6 +35,4 @@ SVGWriter.write(
     development=True,
 )
 
-from pathlib import Path
-
-print("Created:", Path("preview_loop.svg").resolve())
+print("Created:", FilePath("preview_loop.svg").resolve())

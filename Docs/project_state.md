@@ -568,3 +568,12 @@ Teach MeanderGen its first genuine quilting behaviour and produce the first ugly
 I'm looking forward to it, Mandy. I have a good feeling that this next chapter is where MeanderGen will really begin to come alive.
 
 
+ENGINE B DESIGN NOTES
+Engine B Behavioural Principles
+A quilter does not choose a loop first.
+A quilter first assesses the current situation.
+The next loop is chosen to best fit the remaining space.
+Every loop should leave the fabric in a good position for the following loop.
+Decisions are made continuously as the stitching progresses, not only at the start of a loop.
+
+The next loop should deliberately differ from the previous loop while still fitting the available space and maintaining the overall flow.

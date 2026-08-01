@@ -3,31 +3,13 @@ from .move_away_segment import MoveAwaySegment
 from .turn_segment import TurnSegment
 from .return_segment import ReturnSegment
 from .leave_segment import LeaveSegment
-from .motif_blueprint import MotifBlueprint
 from .rectangle_boundary import RectangleBoundary
-from .boundary_query import BoundaryQuery
+from .turn_profile import TurnProfile
 
 
-class LoopBlueprint(MotifBlueprint):
+class LoopBlueprint:
 
     def build(self):
-
-        points = []
-
-        current_x = 0
-        current_y = 0
-
-        move_away = MoveAwaySegment()
-        turn = TurnSegment()
-        return_segment = ReturnSegment()
-        leave = LeaveSegment()
-
-        segments = [
-            move_away,
-            turn,
-            return_segment,
-            leave,
-        ]
 
         traveller = Traveller(
             x=60.0,
@@ -42,41 +24,72 @@ class LoopBlueprint(MotifBlueprint):
             bottom=80,
         )
 
+        points = []
+
+        for _ in range(1):
+
+            loop_intent = traveller.patch_builder.choose_loop(
+                traveller,
+            )
+
+            points.extend(
+                self.build_loop(
+                    traveller,
+                    loop_intent,
+                    boundary,
+                )
+            )
+        return points
+    
+    def build_loop(
+        self,
+        traveller,
+        loop_intent,
+        boundary,
+    ):
+
+        points = []
+
+        move_away = MoveAwaySegment()
+        turn = TurnSegment()
+        return_segment = ReturnSegment()
+        leave = LeaveSegment()
+
+        segments = [
+            move_away,
+            turn,
+            return_segment,
+            leave,
+        ]
+
+        turn_profile = TurnProfile(
+            style="tight",
+            direction=loop_intent.direction,
+        )
+
         for segment in segments:
 
-            segment.start(traveller)
+            if isinstance(segment, TurnSegment):
+                segment.start(
+                    traveller,
+                    turn_profile,
+                )
+            else:
+                segment.start(traveller)
 
             while not segment.finished:
 
                 x, y = segment.next_point()
-                # Update Traveller awareness here.
 
-                traveller.distance_to_boundary = (
-                    BoundaryQuery.distance_to_boundary(
-                        traveller,
-                        boundary,
-                    )
-                )   
-
-                traveller.near_boundary = (
-                    traveller.distance_to_boundary < 15
-                )
-
-                if traveller.near_boundary:
-                    print(
-                        "Near boundary:",
-                        traveller.distance_to_boundary,
-    )
-
-                traveller.x = x + current_x
-                traveller.y = y + current_y
+                traveller.update_awareness(boundary)
 
                 points.append((x, y))
 
-            
-            # Move the origin to the end of this segment.
-            #current_x = translated[0]
-            #current_y = translated[1]
+            # Experiment: give Return a few companion
+            # points from the end of Turn.
+                if isinstance(segment, TurnSegment):
+                    traveller.outward_points.extend(
+                        segment.turn_points
+                    )
 
-            
         return points
